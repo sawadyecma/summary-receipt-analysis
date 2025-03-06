@@ -4,7 +4,9 @@ import pdfWorker from "pdfjs-dist/build/pdf.worker.mjs?url";
 
 PDFJS.GlobalWorkerOptions.workerSrc = pdfWorker;
 
-const composeFileChangeHandler = (callback: (result: string) => void) => {
+export const composeFileChangeHandler = (
+  callback: (result: string) => void
+) => {
   const fileChangeHandler = async (ev: HTMLElementEventMap["change"]) => {
     const tar = ev.currentTarget;
 
@@ -60,21 +62,4 @@ const composeFileChangeHandler = (callback: (result: string) => void) => {
   };
 
   return { fileChangeHandler };
-};
-
-export const setupSummaryReceiptParser = (
-  inputEle: HTMLInputElement,
-  resultEle: HTMLElement
-) => {
-  const { fileChangeHandler } = composeFileChangeHandler((result) => {
-    resultEle.innerHTML = `
-    <p
-      style="border: solid 2px black;"
-    >
-      ${result}
-    </p>`;
-    result;
-  });
-
-  inputEle.addEventListener("change", fileChangeHandler);
 };

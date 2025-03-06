@@ -1,4 +1,4 @@
-import { setupSummaryReceiptParser } from "./parser.ts";
+import { setupSummaryReceiptParser } from "./pdf-parser/setupHandler";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
