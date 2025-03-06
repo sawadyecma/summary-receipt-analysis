@@ -13,10 +13,12 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
       accept="application/pdf" 
     />
     </div>
+    <div id="parsed-result" />
   </div>
 `;
 
 setupCounter(document.querySelector<HTMLButtonElement>("#counter")!);
 setupSummaryReceiptParser(
-  document.querySelector<HTMLInputElement>("#summary-receipt")!
+  document.querySelector<HTMLInputElement>("#summary-receipt")!,
+  document.querySelector<HTMLDivElement>("#parsed-result")!
 );
