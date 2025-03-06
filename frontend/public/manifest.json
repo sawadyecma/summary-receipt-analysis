@@ -1,4 +1,20 @@
 {
+  "short_name": "SRA",
+  "start_url": ".",
   "name": "Summary Receipt Analysis",
-  "display": "standalone"
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "icons/512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "icons/192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ]
 }
