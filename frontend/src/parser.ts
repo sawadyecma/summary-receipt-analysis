@@ -27,8 +27,6 @@ const fileChangeHandler = async (ev: HTMLElementEventMap["change"]) => {
     return;
   }
 
-  const isPdf = PDFJS.isPdfFile(file);
-
   const arrayBuffer = await file.arrayBuffer();
   const doc = PDFJS.getDocument(arrayBuffer);
   const pdf = await doc.promise;
@@ -42,8 +40,6 @@ const fileChangeHandler = async (ev: HTMLElementEventMap["change"]) => {
 
   const text = await page.getTextContent();
   console.log({ text });
-
-  console.log({ isPdf });
 };
 
 export const setupSummaryReceiptParser = (element: HTMLInputElement) => {
