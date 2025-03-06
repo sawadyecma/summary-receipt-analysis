@@ -2,13 +2,13 @@ import * as PDFJS from "pdfjs-dist";
 import pdfWorker from "pdfjs-dist/build/pdf.worker.mjs?url";
 
 import { isTextItem } from "../pdfjs-helper/helper";
-import { composeLinesFromTextItems } from "./lines";
+import { composeLinesFromTextItems, Lines } from "./lines";
 import { extractOneFileFromEvent } from "../util/dom-util";
 
 PDFJS.GlobalWorkerOptions.workerSrc = pdfWorker;
 
 export const composeFileChangeHandler = (
-  callback: (result: string) => void
+  callback: (result: string, lines: Lines) => void
 ) => {
   const fileChangeHandler = async (ev: HTMLElementEventMap["change"]) => {
     const extracted = extractOneFileFromEvent(ev);
@@ -45,7 +45,7 @@ export const composeFileChangeHandler = (
       const lines = composeLinesFromTextItems(text.items);
       console.log({ lines });
 
-      callback(res);
+      callback(res, lines);
     }
   };
 
