@@ -1,8 +1,9 @@
 import * as PDFJS from "pdfjs-dist";
-
 import pdfWorker from "pdfjs-dist/build/pdf.worker.mjs?url";
+
 import { isTextItem } from "../pdfjs-helper/helper";
 import { composeLinesFromTextItems } from "./lines";
+import { extractOneFileFromEvent } from "../util/dom-util";
 
 PDFJS.GlobalWorkerOptions.workerSrc = pdfWorker;
 
@@ -10,27 +11,13 @@ export const composeFileChangeHandler = (
   callback: (result: string) => void
 ) => {
   const fileChangeHandler = async (ev: HTMLElementEventMap["change"]) => {
-    const tar = ev.currentTarget;
-
-    if (!(tar instanceof HTMLInputElement)) {
-      alert("unexpected error happens");
+    const extracted = extractOneFileFromEvent(ev);
+    if (extracted.error) {
+      alert(extracted.error.message);
       return;
     }
 
-    const { files } = tar;
-    if (!files) {
-      alert("input files are not found");
-      return;
-    }
-
-    const file = files[0];
-
-    console.log(file);
-
-    if (file.type != "application/pdf") {
-      alert("file type must be pdf");
-      return;
-    }
+    const file = extracted.result;
 
     const arrayBuffer = await file.arrayBuffer();
     const doc = PDFJS.getDocument(arrayBuffer);
