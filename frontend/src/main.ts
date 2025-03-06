@@ -2,9 +2,14 @@ import { setupSummaryReceiptParser } from "./parser.ts";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
-    <div>
+    <div
+    >
+    <label
+    for="summary-receipt"
+    >Choose your summary receipt:</label>
     <input 
       id="summary-receipt"
+      name="summary-receipt"
       type="file" 
       accept="application/pdf" 
     />
