@@ -1,6 +1,8 @@
 import * as PDFJS from "pdfjs-dist";
 
 import pdfWorker from "pdfjs-dist/build/pdf.worker.mjs?url";
+import { isTextItem } from "../pdfjs-helper/helper";
+import { composeLinesFromTextItems } from "./lines";
 
 PDFJS.GlobalWorkerOptions.workerSrc = pdfWorker;
 
@@ -49,13 +51,12 @@ export const composeFileChangeHandler = (
 
       let res = "";
       text.items.forEach((item) => {
-        Object.prototype.hasOwnProperty;
-        if (item.hasOwnProperty("str")) {
-          // @ts-ignore
+        if (isTextItem(item)) {
           res += item.str;
         }
       });
-      console.log(res);
+      const lines = composeLinesFromTextItems(text.items);
+      console.log({ lines });
 
       callback(res);
     }
