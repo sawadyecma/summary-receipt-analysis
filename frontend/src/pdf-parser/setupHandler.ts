@@ -1,3 +1,4 @@
+import { composeSummaryReceipt } from "../domain/summary-receipt";
 import { composeFileChangeHandler } from "./parser";
 
 export const setupSummaryReceiptParser = (
@@ -12,9 +13,7 @@ export const setupSummaryReceiptParser = (
       ${result}
     </p>`;
 
-    resultEle.innerHTML = `
-      ${plain}
-    <div>
+    const linesDom = `<div>
     ${lines
       .map((line) => {
         const joined = line.body.join("");
@@ -22,8 +21,19 @@ export const setupSummaryReceiptParser = (
         return `<p>${joined}</p>`;
       })
       .join("")}
-    </div>
-    `;
+    </div>`;
+
+    const normalized = composeSummaryReceipt(lines);
+
+    const normalizedDom = normalized.body
+      .map((section) => {
+        const joined = section.body.join("<br/>");
+        console.log({ joined });
+        return `<p>${joined}</p>`;
+      })
+      .join("");
+
+    resultEle.innerHTML = plain + normalizedDom;
     result;
   });
 
