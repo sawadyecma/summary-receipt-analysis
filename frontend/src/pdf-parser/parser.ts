@@ -1,9 +1,9 @@
 import * as PDFJS from "pdfjs-dist";
 import pdfWorker from "pdfjs-dist/build/pdf.worker.mjs?url";
-
 import { isTextItem } from "../pdfjs-helper/helper";
 import { composeLinesFromTextItems, Lines } from "./lines";
 import { extractOneFileFromEvent } from "../util/dom-util";
+import { TextContent } from "pdfjs-dist/types/src/display/api";
 
 PDFJS.GlobalWorkerOptions.workerSrc = pdfWorker;
 
@@ -26,27 +26,34 @@ export const composeFileChangeHandler = (
     const numPages = pdf.numPages;
     console.log({ numPages });
 
+    let pageTexts: TextContent[] = [];
+
     // NOTE: The first page is 1
     for (let i = 1; i <= numPages; i++) {
       console.log({ i });
       const page = await pdf.getPage(i);
-      const tree = await page.getStructTree();
+      // const tree = await page.getStructTree();
       const text = await page.getTextContent();
+      pageTexts.push(text);
 
-      console.log({ page, tree });
-      console.log({ text });
+      console.log(`${i} has been completed`);
+    }
 
-      let res = "";
+    let res = "";
+
+    const pageLines: Lines = [];
+    pageTexts.forEach((text) => {
       text.items.forEach((item) => {
         if (isTextItem(item)) {
           res += item.str;
         }
       });
-      const lines = composeLinesFromTextItems(text.items);
-      console.log({ lines });
 
-      callback(res, lines);
-    }
+      const lines = composeLinesFromTextItems(text.items);
+      pageLines.push(...lines);
+    });
+
+    callback(res, pageLines);
   };
 
   return { fileChangeHandler };
