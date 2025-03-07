@@ -1,0 +1,91 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`normalize lines > case1 1`] = `
+{
+  "body": [
+    {
+      "body": [
+        "Name: Bubbles, Jackson",
+        "Employee ID: 126167",
+        "Pick Date: 11/02/2025",
+        "Start Time: 11/02/2025 06:30",
+        "End Time: 11/02/2025 12:02",
+        "Attendance Hrs: 5.53",
+      ],
+      "sectionType": "header",
+    },
+    {
+      "body": [
+        "Session",
+        "Location: [Bengeo]608",
+        "Variety: Victoria",
+        "Pay Type: Per Unit",
+        "Unit: 125g Driscoll's",
+        "Piece Rate: 0.71",
+        "Target Pick Rate: 48.00",
+        "Session Start Time: 11/02/2025 06:30",
+        "Session End Time: 11/02/2025 09:11",
+        "Session Hrs: 2.68",
+        "Role: Picker",
+        "Individual Pick Records",
+        "07:13 38.00",
+        "07:49 40.00",
+        "08:30 42.00",
+        "08:53 16.00",
+        "No. of Pick Records: 4",
+        "Subtotal Pick Records: 136.0",
+        "Actual Pick Rate: 50.75",
+      ],
+      "sectionType": "session",
+    },
+    {
+      "body": [
+        "Break",
+        "Break Type: Paid Break",
+        "Start Time: 11/02/2025 09:11",
+        "End Time: 11/02/2025 09:26",
+        "Break Hrs: 0.25",
+      ],
+      "sectionType": "break",
+    },
+    {
+      "body": [
+        "Session",
+        "Location: [Bengeo]609",
+        "Variety: Victoria",
+        "Pay Type: Per Unit",
+        "Unit: 125g Driscoll's",
+        "Piece Rate: 0.71",
+        "Target Pick Rate: 48.00",
+        "Session Start Time: 11/02/2025 09:26",
+        "Session End Time: 11/02/2025 12:00",
+        "Session Hrs: 2.57",
+        "Role: Picker",
+        "Individual Pick Records",
+        "09:50 39.00",
+        "10:20 38.00",
+        "10:52 40.00",
+        "11:29 39.00",
+        "11:54 20.00",
+        "No. of Pick Records: 5",
+        "Subtotal Pick Records: 176.0",
+        "Actual Pick Rate: 68.48",
+      ],
+      "sectionType": "session",
+    },
+    {
+      "body": [
+        "Totals",
+        "Total Pick Records by - 125g Driscoll's: 312.00",
+        "Total Session Hrs: 5.25",
+        "Total Picker Hrs: 5.25",
+        "Total Paid Break Hrs: 0.25",
+        "Total Paid Hrs: 5.50",
+        "Avg Pick Rate: 59.61",
+        "Supervisor: Michael, Jackson",
+      ],
+      "sectionType": "totals",
+    },
+  ],
+}
+`;
