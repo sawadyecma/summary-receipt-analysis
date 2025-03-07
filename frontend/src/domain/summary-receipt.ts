@@ -4,7 +4,7 @@ export type SummaryReceipt = {
   body: (SectionHeader | Session | Break | Total)[];
 };
 
-const SESSION_TYPE = {
+export const SESSION_TYPE = {
   header: "header",
   session: "session",
   break: "break",
@@ -104,8 +104,6 @@ export const composeSummaryReceipt = (lines: Lines): SummaryReceipt => {
         body: emptyBody,
       };
     }
-
-    console.log({ ret, currentSection });
   });
 
   return ret;
