@@ -1,4 +1,5 @@
-import { composeSummaryReceipt, SECTION_TYPE } from "../domain/summary-receipt";
+import { SECTION_TYPE } from "../domain/section-type";
+import { composeSummaryReceipt } from "../domain/summary-receipt";
 import { composeFileChangeHandler } from "./parser";
 
 export const setupSummaryReceiptParser = (

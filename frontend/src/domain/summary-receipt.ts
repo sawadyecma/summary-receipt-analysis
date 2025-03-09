@@ -1,17 +1,9 @@
 import { Line, Lines } from "../pdf-parser/lines";
+import { SECTION_TYPE, SectionType } from "./section-type";
 
 export type SummaryReceipt = {
   body: (SectionHeader | Session | Break | Total)[];
 };
-
-export const SECTION_TYPE = {
-  header: "header",
-  session: "session",
-  break: "break",
-  totals: "totals",
-} as const;
-
-type SectionType = (typeof SECTION_TYPE)[keyof typeof SECTION_TYPE];
 
 type SectionHeader = {
   sectionType: typeof SECTION_TYPE.header;
