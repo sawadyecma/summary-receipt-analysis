@@ -20,8 +20,6 @@ export const extractOneFileFromEvent: ExtractOneFileFromEvent = (
 
   const file = files[0];
 
-  console.log(file);
-
   if (file.type != "application/pdf") {
     return newError("file type must be pdf");
   }

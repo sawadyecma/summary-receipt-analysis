@@ -6,23 +6,6 @@ export const setupSummaryReceiptParser = (
   resultEle: HTMLElement
 ) => {
   const { fileChangeHandler } = composeFileChangeHandler((result, lines) => {
-    const plain = `
-    <p
-      style="border: solid 2px black;"
-    >
-      ${result}
-    </p>`;
-
-    const linesDom = `<div>
-    ${lines
-      .map((line) => {
-        const joined = line.body.join("");
-        console.log({ joined });
-        return `<p>${joined}</p>`;
-      })
-      .join("")}
-    </div>`;
-
     const normalized = composeSummaryReceipt(lines);
 
     const sectionColor = {

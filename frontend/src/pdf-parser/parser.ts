@@ -24,19 +24,15 @@ export const composeFileChangeHandler = (
     const pdf = await doc.promise;
 
     const numPages = pdf.numPages;
-    console.log({ numPages });
 
     let pageTexts: TextContent[] = [];
 
     // NOTE: The first page is 1
     for (let i = 1; i <= numPages; i++) {
-      console.log({ i });
       const page = await pdf.getPage(i);
       // const tree = await page.getStructTree();
       const text = await page.getTextContent();
       pageTexts.push(text);
-
-      console.log(`${i} has been completed`);
     }
 
     let res = "";
