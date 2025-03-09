@@ -1,4 +1,4 @@
-import { composeSummaryReceipt, SESSION_TYPE } from "../domain/summary-receipt";
+import { composeSummaryReceipt, SECTION_TYPE } from "../domain/summary-receipt";
 import { composeFileChangeHandler } from "./parser";
 
 export const setupSummaryReceiptParser = (
@@ -9,10 +9,10 @@ export const setupSummaryReceiptParser = (
     const normalized = composeSummaryReceipt(lines);
 
     const sectionColor = {
-      [SESSION_TYPE.header]: "#D1603D",
-      [SESSION_TYPE.session]: "#D0E37F",
-      [SESSION_TYPE.break]: "#DDB967",
-      [SESSION_TYPE.totals]: "#D1603D",
+      [SECTION_TYPE.header]: "#D1603D",
+      [SECTION_TYPE.session]: "#D0E37F",
+      [SECTION_TYPE.break]: "#DDB967",
+      [SECTION_TYPE.totals]: "#D1603D",
     } as const;
 
     const normalizedDom = normalized.body

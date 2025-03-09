@@ -4,33 +4,33 @@ export type SummaryReceipt = {
   body: (SectionHeader | Session | Break | Total)[];
 };
 
-export const SESSION_TYPE = {
+export const SECTION_TYPE = {
   header: "header",
   session: "session",
   break: "break",
   totals: "totals",
 } as const;
 
-type SessionType = (typeof SESSION_TYPE)[keyof typeof SESSION_TYPE];
+type SessionType = (typeof SECTION_TYPE)[keyof typeof SECTION_TYPE];
 
 type SectionHeader = {
-  sectionType: typeof SESSION_TYPE.header;
+  sectionType: typeof SECTION_TYPE.header;
   body: string[];
 };
 
 type Session = {
-  sectionType: typeof SESSION_TYPE.session;
+  sectionType: typeof SECTION_TYPE.session;
   body: string[];
 };
 
 type Break = {
-  sectionType: typeof SESSION_TYPE.break;
+  sectionType: typeof SECTION_TYPE.break;
   // breakType: "paid-break" | "unpaid-break";
   body: string[];
 };
 
 type Total = {
-  sectionType: typeof SESSION_TYPE.totals;
+  sectionType: typeof SECTION_TYPE.totals;
   body: string[];
 };
 
@@ -70,7 +70,7 @@ export const composeSummaryReceipt = (lines: Lines): SummaryReceipt => {
     body: [],
   };
 
-  let nextSectionType: SessionType = SESSION_TYPE.header;
+  let nextSectionType: SessionType = SECTION_TYPE.header;
 
   let currentSection: SummaryReceipt["body"][number] = header;
 
@@ -90,11 +90,11 @@ export const composeSummaryReceipt = (lines: Lines): SummaryReceipt => {
       // push currentSection
       // make next section with empty
       if (isSessionTitle(nextLine)) {
-        nextSectionType = SESSION_TYPE.session;
+        nextSectionType = SECTION_TYPE.session;
       } else if (isBreakTitle(nextLine)) {
-        nextSectionType = SESSION_TYPE.break;
+        nextSectionType = SECTION_TYPE.break;
       } else if (isTotalTitle(nextLine)) {
-        nextSectionType = SESSION_TYPE.totals;
+        nextSectionType = SECTION_TYPE.totals;
       }
       ret.body.push(currentSection);
       const emptyBody: string[] = [];
