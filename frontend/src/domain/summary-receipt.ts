@@ -11,7 +11,7 @@ export const SECTION_TYPE = {
   totals: "totals",
 } as const;
 
-type SessionType = (typeof SECTION_TYPE)[keyof typeof SECTION_TYPE];
+type SectionType = (typeof SECTION_TYPE)[keyof typeof SECTION_TYPE];
 
 type SectionHeader = {
   sectionType: typeof SECTION_TYPE.header;
@@ -70,7 +70,7 @@ export const composeSummaryReceipt = (lines: Lines): SummaryReceipt => {
     body: [],
   };
 
-  let nextSectionType: SessionType = SECTION_TYPE.header;
+  let nextSectionType: SectionType = SECTION_TYPE.header;
 
   let currentSection: SummaryReceipt["body"][number] = header;
 
