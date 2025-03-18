@@ -1,6 +1,7 @@
 import { SECTION_TYPE } from "./section-type";
 import { SummaryReceipt } from "./summary-receipt";
 import { Option } from "../util/basic-type";
+import { isValid, parse } from "date-fns";
 
 type StructuredSummaryReceipt = {
   sections: Section[];
@@ -72,6 +73,29 @@ export const extractNumber = (arg: string): Option<number> => {
   if (!res) return undefined;
 
   return parseFloat(res[0]);
+};
+
+const isStartDatetime = (arg: string) => {
+  return (
+    arg.includes("Session") && arg.includes("Start") && arg.includes("Time")
+  );
+};
+
+const isEndDatetime = (arg: string) => {
+  return arg.includes("Session") && arg.includes("End") && arg.includes("Time");
+};
+
+const datetimeFormat = "dd/MM/yyyy HH:mm";
+
+const datetimeRegex = /\d{2}\/\d{2}\/\d{4}\s+\d{2}\:\d{2}/;
+
+export const extractDatetime = (arg: string): Option<Date> => {
+  const regRes = arg.match(datetimeRegex);
+  if (!regRes) return undefined;
+
+  const res = parse(regRes[0], datetimeFormat, new Date(), {});
+  if (!isValid(res)) return undefined;
+  return res;
 };
 
 const convertSectionStructured = (
