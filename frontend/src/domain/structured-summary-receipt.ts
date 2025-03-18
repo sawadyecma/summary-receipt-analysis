@@ -111,6 +111,8 @@ const convertSectionStructured = (
   if (arg.sectionType === SECTION_TYPE.session) {
     let subtotalPickRecords: number = 0;
     let payType: PayType = PAY_TYPE.perUnit;
+    let startTime: Date = new Date();
+    let endTime: Date = new Date();
 
     arg.body.forEach((item) => {
       if (isSubtotalItem(item)) {
@@ -125,14 +127,26 @@ const convertSectionStructured = (
         if (!extracted) return;
         payType = extracted;
       }
+
+      if (isEndDatetime(item)) {
+        const extracted = extractDatetime(item);
+        if (!extracted) return;
+        endTime = extracted;
+      }
+
+      if (isStartDatetime(item)) {
+        const extracted = extractDatetime(item);
+        if (!extracted) return;
+        startTime = extracted;
+      }
     });
 
     return {
       kind: SECTION_TYPE.session,
       subtotalPickRecords,
       payType,
-      startTime: new Date(),
-      endTime: new Date(),
+      startTime,
+      endTime,
     };
   }
   if (arg.sectionType === SECTION_TYPE.break) {
