@@ -1,13 +1,16 @@
 import { SECTION_TYPE } from "../domain/section-type";
 import { composeSummaryReceipt } from "../domain/summary-receipt";
 import { composeFileChangeHandler } from "./parser";
-
+import { composeStructuredSummaryReceipt } from "../domain/structured-summary-receipt";
 export const setupSummaryReceiptParser = (
   inputEle: HTMLInputElement,
   resultEle: HTMLElement
 ) => {
   const { fileChangeHandler } = composeFileChangeHandler((result, lines) => {
     const normalized = composeSummaryReceipt(lines);
+
+    const structured = composeStructuredSummaryReceipt(normalized);
+    console.log({ structured });
 
     const sectionColor = {
       [SECTION_TYPE.header]: "#D1603D",

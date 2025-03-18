@@ -19,3 +19,5 @@ export const newError = (txt: string) => {
     error: new Error(txt),
   };
 };
+
+export type Option<T> = T | undefined;

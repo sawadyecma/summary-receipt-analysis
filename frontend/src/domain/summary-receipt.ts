@@ -58,7 +58,7 @@ export const composeSummaryReceipt = (lines: Lines): SummaryReceipt => {
     body: [],
   };
   const header: SectionHeader = {
-    sectionType: "header",
+    sectionType: SECTION_TYPE.header,
     body: [],
   };
 
