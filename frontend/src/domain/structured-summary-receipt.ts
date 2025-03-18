@@ -24,6 +24,7 @@ type Section = {
       | {
           payType: typeof PAY_TYPE.perUnit;
           subtotalPickRecords: number;
+          pieceRate: number;
         }
       | {
           payType: typeof PAY_TYPE.perHour;
@@ -76,13 +77,11 @@ export const extractNumber = (arg: string): Option<number> => {
 };
 
 const isStartDatetime = (arg: string) => {
-  return (
-    arg.includes("Session") && arg.includes("Start") && arg.includes("Time")
-  );
+  return arg.includes("Start") && arg.includes("Time");
 };
 
 const isEndDatetime = (arg: string) => {
-  return arg.includes("Session") && arg.includes("End") && arg.includes("Time");
+  return arg.includes("End") && arg.includes("Time");
 };
 
 const datetimeFormat = "dd/MM/yyyy HH:mm";
@@ -96,6 +95,10 @@ export const extractDatetime = (arg: string): Option<Date> => {
   const res = parse(regRes[0], datetimeFormat, new Date(), {});
   if (!isValid(res)) return undefined;
   return res;
+};
+
+const isPieceRate = (arg: string) => {
+  return arg.includes("Piece") && arg.includes("Rate");
 };
 
 const convertSectionStructured = (
@@ -113,6 +116,7 @@ const convertSectionStructured = (
     let payType: PayType = PAY_TYPE.perUnit;
     let startTime: Date = new Date();
     let endTime: Date = new Date();
+    let pieceRate: number = 0;
 
     arg.body.forEach((item) => {
       if (isSubtotalItem(item)) {
@@ -139,6 +143,12 @@ const convertSectionStructured = (
         if (!extracted) return;
         startTime = extracted;
       }
+
+      if (isPieceRate(item)) {
+        const extracted = extractNumber(item);
+        if (!extracted) return;
+        pieceRate = extracted;
+      }
     });
 
     return {
@@ -147,13 +157,32 @@ const convertSectionStructured = (
       payType,
       startTime,
       endTime,
+      pieceRate,
     };
   }
+
   if (arg.sectionType === SECTION_TYPE.break) {
+    let startTime: Date = new Date();
+    let endTime: Date = new Date();
+
+    arg.body.forEach((item) => {
+      if (isEndDatetime(item)) {
+        const extracted = extractDatetime(item);
+        if (!extracted) return;
+        endTime = extracted;
+      }
+
+      if (isStartDatetime(item)) {
+        const extracted = extractDatetime(item);
+        if (!extracted) return;
+        startTime = extracted;
+      }
+    });
+
     return {
       kind: SECTION_TYPE.break,
-      startTime: new Date(),
-      endTime: new Date(),
+      startTime,
+      endTime,
     };
   }
 };
