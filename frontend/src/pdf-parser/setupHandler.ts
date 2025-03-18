@@ -2,6 +2,10 @@ import { SECTION_TYPE } from "../domain/section-type";
 import { composeSummaryReceipt } from "../domain/summary-receipt";
 import { composeFileChangeHandler } from "./parser";
 import { composeStructuredSummaryReceipt } from "../domain/structured-summary-receipt";
+import { composeAnalyzedReport } from "../domain/analyzed-report";
+
+const MIMIMUM_WAGE = 29.52;
+
 export const setupSummaryReceiptParser = (
   inputEle: HTMLInputElement,
   resultEle: HTMLElement
@@ -11,6 +15,9 @@ export const setupSummaryReceiptParser = (
 
     const structured = composeStructuredSummaryReceipt(normalized);
     console.log({ structured });
+
+    const analyzed = composeAnalyzedReport(structured, MIMIMUM_WAGE);
+    console.log({ analyzed });
 
     const sectionColor = {
       [SECTION_TYPE.header]: "#D1603D",

@@ -3,16 +3,24 @@ import { SummaryReceipt } from "./summary-receipt";
 import { Option } from "../util/basic-type";
 import { isValid, parse } from "date-fns";
 
-type StructuredSummaryReceipt = {
+export type StructuredSummaryReceipt = {
   sections: Section[];
 };
 
-const PAY_TYPE = {
+export const PAY_TYPE = {
   perUnit: "perUnit",
   perHour: "perHour",
 } as const;
 
 type PayType = (typeof PAY_TYPE)[keyof typeof PAY_TYPE];
+
+export const BREAK_TYPE = {
+  paidBreak: "paidBreak",
+  unpaidBreak: "unpaidBreak",
+  move: "move",
+} as const;
+
+type BreakType = (typeof BREAK_TYPE)[keyof typeof BREAK_TYPE];
 
 type Section = {
   startTime: Date;
@@ -32,6 +40,7 @@ type Section = {
     ))
   | {
       kind: typeof SECTION_TYPE.break;
+      breakType: BreakType;
     }
 );
 
@@ -101,6 +110,25 @@ const isPieceRate = (arg: string) => {
   return arg.includes("Piece") && arg.includes("Rate");
 };
 
+const isBreakType = (arg: string) => {
+  return arg.includes("Break") && arg.includes("Type");
+};
+
+const extractBreakType = (arg: string): Option<BreakType> => {
+  if (arg.includes("Unpaid")) {
+    return BREAK_TYPE.unpaidBreak;
+  }
+  if (arg.includes("Paid")) {
+    return BREAK_TYPE.paidBreak;
+  }
+
+  if (arg.includes("Move")) {
+    return BREAK_TYPE.move;
+  }
+
+  return undefined;
+};
+
 const convertSectionStructured = (
   arg: SummaryReceipt["body"][number]
 ): Section | undefined => {
@@ -164,6 +192,7 @@ const convertSectionStructured = (
   if (arg.sectionType === SECTION_TYPE.break) {
     let startTime: Date = new Date();
     let endTime: Date = new Date();
+    let breakType: BreakType = BREAK_TYPE.unpaidBreak;
 
     arg.body.forEach((item) => {
       if (isEndDatetime(item)) {
@@ -177,12 +206,19 @@ const convertSectionStructured = (
         if (!extracted) return;
         startTime = extracted;
       }
+
+      if (isBreakType(item)) {
+        const extracted = extractBreakType(item);
+        if (!extracted) return;
+        breakType = extracted;
+      }
     });
 
     return {
       kind: SECTION_TYPE.break,
       startTime,
       endTime,
+      breakType,
     };
   }
 };
