@@ -17,7 +17,6 @@ export const setupSummaryReceiptParser = (
     console.log({ structured });
 
     const analyzed = composeAnalyzedReport(structured, MIMIMUM_WAGE);
-    console.log({ analyzed });
 
     const sectionColor = {
       [SECTION_TYPE.header]: "#D1603D",
@@ -41,7 +40,21 @@ export const setupSummaryReceiptParser = (
       })
       .join("");
 
-    resultEle.innerHTML = normalizedDom;
+    const analyzedDom = `
+    <p 
+      style='
+        padding: 8px 16px 4px;
+        border: solid 2px ${sectionColor[SECTION_TYPE.totals]};
+      '
+      >
+    ${Object.entries(analyzed)
+      .map((item) => {
+        return `${item[0]}: ${item[1]}`;
+      })
+      .join("<br/>")}
+    </p>`;
+
+    resultEle.innerHTML = analyzedDom + normalizedDom;
     result;
   });
 
